@@ -1,0 +1,85 @@
+@model IEnumerable<AssetDto>
+@{
+    ViewData["Title"] = "Asset Catalog";
+    var categories = ViewBag.Categories as IEnumerable<CategoryDto> ?? new List<CategoryDto>();
+}
+
+<div className="d-flex align-items-center justify-content-between mb-4">
+    <div>
+        <h3 className="fw-bold mb-1">Asset Catalog</h3>
+        <p className="text-muted mb-0">Manage hardware, software, assignments and status</p>
+    </div>
+    <a asp-action="Create" className="btn btn-primary fw-medium">+ Add New Asset</a>
+</div>
+
+<div className="card-custom p-3 mb-4">
+    <form method="get" className="row g-2">
+        <div className="col-12 col-md-5">
+            <input type="text" name="search" className="form-control" placeholder="Search by tag, name, brand, serial..." value="@Context.Request.Query["search"]" />
+        </div>
+        <div className="col-12 col-sm-6 col-md-3">
+            <select name="categoryId" className="form-select">
+                <option value="">All Categories</option>
+                @foreach (var c in categories)
+                {
+                    <option value="@c.Id">@c.Name</option>
+                }
+            </select>
+        </div>
+        <div className="col-12 col-sm-6 col-md-4 d-flex gap-2">
+            <select name="status" className="form-select">
+                <option value="">All Statuses</option>
+                <option value="Available">Available</option>
+                <option value="Assigned">Assigned</option>
+                <option value="UnderMaintenance">Under Maintenance</option>
+                <option value="Retired">Retired</option>
+            </select>
+            <button type="submit" className="btn btn-secondary px-3">Filter</button>
+        </div>
+    </form>
+</div>
+
+<div className="card-custom p-4">
+    <div className="table-responsive">
+        <table className="table table-hover align-middle mb-0">
+            <thead className="table-light">
+                <tr>
+                    <th>Asset Tag</th>
+                    <th>Asset Name</th>
+                    <th>Category</th>
+                    <th>Serial Number</th>
+                    <th>Assigned To</th>
+                    <th>Status</th>
+                    <th className="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var a in Model)
+                {
+                    <tr>
+                        <td><span className="badge bg-light text-dark border font-monospace">@a.AssetTag</span></td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@a.AssetId" className="fw-semibold text-dark text-decoration-none">@a.AssetName</a>
+                            <div className="text-muted small">@a.Brand @a.Model</div>
+                        </td>
+                        <td>@a.CategoryName</td>
+                        <td><span className="font-monospace text-secondary small">@a.SerialNumber</span></td>
+                        <td>@(string.IsNullOrEmpty(a.CurrentEmployeeName) ? "—" : a.CurrentEmployeeName)</td>
+                        <td><span className="badge bg-primary">@a.Status</span></td>
+                        <td className="text-end">
+                            <a asp-action="Details" asp-route-id="@a.AssetId" className="btn btn-light btn-sm text-secondary">Details</a>
+                            @if (a.Status == "Available")
+                            {
+                                <a asp-controller="Assignments" asp-action="Assign" asp-route-assetId="@a.AssetId" className="btn btn-primary btn-sm ms-1">Assign</a>
+                            }
+                            else if (a.Status == "Assigned")
+                            {
+                                <a asp-controller="Assignments" asp-action="Return" asp-route-assetId="@a.AssetId" className="btn btn-outline-secondary btn-sm ms-1">Return</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

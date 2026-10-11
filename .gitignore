@@ -1,0 +1,38 @@
+# .NET Core & Visual Studio
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+.vscode/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]uild/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# SQLite databases & temp files
+*.db
+*.db-shm
+*.db-wal
+*.log
+
+# Node & React
+node_modules/
+dist/
+dist-ssr/
+*.local
+.npm
+.eslintcache
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini

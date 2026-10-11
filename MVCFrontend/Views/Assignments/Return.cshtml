@@ -1,0 +1,40 @@
+@model MvcReturnAssetViewModel
+@{
+    ViewData["Title"] = "Return Asset";
+}
+
+<div className="row justify-content-center">
+    <div className="col-12 col-md-6">
+        <div className="card-custom p-4">
+            <h4 className="fw-bold mb-3">Process Asset Return: @Model.AssetName (@Model.AssetTag)</h4>
+            <p className="text-muted small">Currently assigned to: <strong>@Model.AssignedToEmployee</strong></p>
+
+            <form asp-action="Return" method="post">
+                <input type="hidden" asp-for="AssetId" />
+                <input type="hidden" asp-for="AssetName" />
+                <input type="hidden" asp-for="AssetTag" />
+
+                <div asp-validation-summary="ModelOnly" className="alert alert-danger py-2"></div>
+
+                <div className="mb-3">
+                    <label asp-for="Condition" className="form-label fw-semibold">Returned Condition</label>
+                    <select asp-for="Condition" className="form-select">
+                        <option value="Good">Good / Excellent</option>
+                        <option value="Fair">Fair / Used</option>
+                        <option value="Damaged">Damaged (Needs Repair)</option>
+                    </select>
+                </div>
+
+                <div className="mb-4">
+                    <label asp-for="ReturnNotes" className="form-label fw-semibold">Return Notes</label>
+                    <textarea asp-for="ReturnNotes" className="form-control" rows="2" placeholder="Returned upon project completion..."></textarea>
+                </div>
+
+                <div className="d-flex justify-content-end gap-2">
+                    <a asp-controller="Assets" asp-action="Index" className="btn btn-light">Cancel</a>
+                    <button type="submit" className="btn btn-success px-4">Confirm Return</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

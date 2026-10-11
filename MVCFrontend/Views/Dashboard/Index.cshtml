@@ -1,0 +1,84 @@
+@model AdminDashboardDto
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div className="d-flex align-items-center justify-content-between mb-4">
+    <div>
+        <h3 className="fw-bold mb-1">MVC Admin Dashboard</h3>
+        <p className="text-muted mb-0">System metrics and asset lifecycle operations</p>
+    </div>
+    <a asp-controller="Assets" asp-action="Create" className="btn btn-primary fw-medium">+ Add New Asset</a>
+</div>
+
+<div className="row g-3 mb-4">
+    <div className="col-6 col-md-2">
+        <div className="card-custom p-3 text-center">
+            <div className="text-muted small">Total Assets</div>
+            <h3 className="fw-bold mb-0 text-primary">@Model.TotalAssets</h3>
+        </div>
+    </div>
+    <div className="col-6 col-md-2">
+        <div className="card-custom p-3 text-center">
+            <div className="text-muted small">Available</div>
+            <h3 className="fw-bold mb-0 text-success">@Model.AvailableAssets</h3>
+        </div>
+    </div>
+    <div className="col-6 col-md-2">
+        <div className="card-custom p-3 text-center">
+            <div className="text-muted small">Assigned</div>
+            <h3 className="fw-bold mb-0 text-indigo" style="color: #4f46e5;">@Model.AssignedAssets</h3>
+        </div>
+    </div>
+    <div className="col-6 col-md-2">
+        <div className="card-custom p-3 text-center">
+            <div className="text-muted small">Maintenance</div>
+            <h3 className="fw-bold mb-0 text-warning">@Model.UnderMaintenanceAssets</h3>
+        </div>
+    </div>
+    <div className="col-6 col-md-2">
+        <div className="card-custom p-3 text-center">
+            <div className="text-muted small">Pending Req.</div>
+            <h3 className="fw-bold mb-0 text-info">@Model.PendingRequests</h3>
+        </div>
+    </div>
+    <div className="col-6 col-md-2">
+        <div className="card-custom p-3 text-center">
+            <div className="text-muted small">Employees</div>
+            <h3 className="fw-bold mb-0 text-secondary">@Model.TotalEmployees</h3>
+        </div>
+    </div>
+</div>
+
+<div className="card-custom p-4">
+    <h5 className="fw-bold mb-3">Recent Asset Inventory</h5>
+    <div className="table-responsive">
+        <table className="table table-hover align-middle mb-0">
+            <thead className="table-light">
+                <tr>
+                    <th>Asset Tag</th>
+                    <th>Asset Name</th>
+                    <th>Category</th>
+                    <th>Assigned To</th>
+                    <th>Status</th>
+                    <th className="text-end">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var asset in Model.RecentAssets)
+                {
+                    <tr>
+                        <td><span className="badge bg-light text-dark border font-monospace">@asset.AssetTag</span></td>
+                        <td className="fw-semibold">@asset.AssetName</td>
+                        <td>@asset.CategoryName</td>
+                        <td>@(string.IsNullOrEmpty(asset.CurrentEmployeeName) ? "—" : asset.CurrentEmployeeName)</td>
+                        <td><span className="badge bg-secondary">@asset.Status</span></td>
+                        <td className="text-end">
+                            <a asp-controller="Assets" asp-action="Details" asp-route-id="@asset.AssetId" className="btn btn-outline-primary btn-sm">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

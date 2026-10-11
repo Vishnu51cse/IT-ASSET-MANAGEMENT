@@ -1,0 +1,43 @@
+@model IEnumerable<EmployeeDto>
+@{
+    ViewData["Title"] = "Employee Directory";
+}
+
+<div className="d-flex align-items-center justify-content-between mb-4">
+    <div>
+        <h3 className="fw-bold mb-1">Employee Directory</h3>
+        <p className="text-muted mb-0">Active company personnel and assigned equipment</p>
+    </div>
+</div>
+
+<div className="card-custom p-4">
+    <div className="table-responsive">
+        <table className="table table-hover align-middle mb-0">
+            <thead className="table-light">
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Designation</th>
+                    <th>Active Assets</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var emp in Model)
+                {
+                    <tr>
+                        <td><span className="badge bg-light text-dark border font-monospace">@emp.EmployeeCode</span></td>
+                        <td className="fw-semibold">@emp.Name</td>
+                        <td className="text-muted">@emp.Email</td>
+                        <td>@emp.Department</td>
+                        <td>@emp.Designation</td>
+                        <td><span className="badge bg-primary-subtle text-primary">@emp.ActiveAssignedAssetsCount Assets</span></td>
+                        <td><span className="badge bg-success">@emp.Status</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,87 @@
+@model MvcCreateAssetViewModel
+@{
+    ViewData["Title"] = "Add New Asset";
+}
+
+<div className="row justify-content-center">
+    <div className="col-12 col-lg-8">
+        <div className="card-custom p-4">
+            <h4 className="fw-bold mb-3">Register New IT Asset</h4>
+
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" className="alert alert-danger py-2"></div>
+
+                <div className="row g-3">
+                    <div className="col-md-6">
+                        <label asp-for="AssetTag" className="form-label fw-semibold">Asset Tag (Unique)</label>
+                        <input asp-for="AssetTag" className="form-control" />
+                        <span asp-validation-for="AssetTag" className="text-danger small"></span>
+                    </div>
+
+                    <div className="col-md-6">
+                        <label asp-for="AssetName" className="form-label fw-semibold">Asset Name</label>
+                        <input asp-for="AssetName" className="form-control" placeholder="Dell XPS 15" />
+                        <span asp-validation-for="AssetName" className="text-danger small"></span>
+                    </div>
+
+                    <div className="col-md-6">
+                        <label asp-for="CategoryId" className="form-label fw-semibold">Category</label>
+                        <select asp-for="CategoryId" className="form-select">
+                            @foreach (var c in Model.AvailableCategories)
+                            {
+                                <option value="@c.Id">@c.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="CategoryId" className="text-danger small"></span>
+                    </div>
+
+                    <div className="col-md-6">
+                        <label asp-for="SerialNumber" className="form-label fw-semibold">Serial Number (Unique)</label>
+                        <input asp-for="SerialNumber" className="form-control" />
+                        <span asp-validation-for="SerialNumber" className="text-danger small"></span>
+                    </div>
+
+                    <div className="col-md-6">
+                        <label asp-for="Brand" className="form-label fw-semibold">Brand</label>
+                        <input asp-for="Brand" className="form-control" placeholder="Dell / Apple / Lenovo" />
+                    </div>
+
+                    <div className="col-md-6">
+                        <label asp-for="Model" className="form-label fw-semibold">Model</label>
+                        <input asp-for="Model" className="form-control" placeholder="XPS 15 / ThinkPad X1" />
+                    </div>
+
+                    <div className="col-md-6">
+                        <label asp-for="PurchaseDate" className="form-label fw-semibold">Purchase Date</label>
+                        <input asp-for="PurchaseDate" type="date" className="form-control" />
+                    </div>
+
+                    <div className="col-md-6">
+                        <label asp-for="PurchaseCost" className="form-label fw-semibold">Purchase Cost ($)</label>
+                        <input asp-for="PurchaseCost" type="number" step="0.01" className="form-control" />
+                    </div>
+
+                    <div className="col-md-6">
+                        <label asp-for="WarrantyExpiry" className="form-label fw-semibold">Warranty Expiry</label>
+                        <input asp-for="WarrantyExpiry" type="date" className="form-control" />
+                    </div>
+
+                    <div className="col-md-6">
+                        <label asp-for="Location" className="form-label fw-semibold">Location</label>
+                        <input asp-for="Location" className="form-control" />
+                    </div>
+
+                    <div className="col-12">
+                        <label asp-for="Description" className="form-label fw-semibold">Description / Notes</label>
+                        <textarea asp-for="Description" className="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-top d-flex justify-content-end gap-2">
+                    <a asp-action="Index" className="btn btn-light">Cancel</a>
+                    <button type="submit" className="btn btn-primary px-4">Save Asset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

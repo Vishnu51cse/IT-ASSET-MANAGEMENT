@@ -1,0 +1,45 @@
+@model MvcAssignAssetViewModel
+@{
+    ViewData["Title"] = "Assign Asset";
+}
+
+<div className="row justify-content-center">
+    <div className="col-12 col-md-6">
+        <div className="card-custom p-4">
+            <h4 className="fw-bold mb-3">Assign Asset: @Model.AssetName (@Model.AssetTag)</h4>
+
+            <form asp-action="Assign" method="post">
+                <input type="hidden" asp-for="AssetId" />
+                <input type="hidden" asp-for="AssetName" />
+                <input type="hidden" asp-for="AssetTag" />
+
+                <div asp-validation-summary="ModelOnly" className="alert alert-danger py-2"></div>
+
+                <div className="mb-3">
+                    <label asp-for="EmployeeId" className="form-label fw-semibold">Select Employee</label>
+                    <select asp-for="EmployeeId" className="form-select">
+                        @foreach (var emp in Model.AvailableEmployees)
+                        {
+                            <option value="@emp.Id">@emp.Name (@emp.EmployeeCode - @emp.Department)</option>
+                        }
+                    </select>
+                </div>
+
+                <div className="mb-3">
+                    <label asp-for="ExpectedReturnDate" className="form-label fw-semibold">Expected Return Date (Optional)</label>
+                    <input asp-for="ExpectedReturnDate" type="date" className="form-control" />
+                </div>
+
+                <div className="mb-4">
+                    <label asp-for="Notes" className="form-label fw-semibold">Assignment Notes</label>
+                    <textarea asp-for="Notes" className="form-control" rows="2" placeholder="Primary workstation setup..."></textarea>
+                </div>
+
+                <div className="d-flex justify-content-end gap-2">
+                    <a asp-controller="Assets" asp-action="Index" className="btn btn-light">Cancel</a>
+                    <button type="submit" className="btn btn-primary px-4">Confirm Assignment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+@model AssetDto
+@{
+    ViewData["Title"] = "Asset Audit Details";
+    var history = ViewBag.History as IEnumerable<AssetHistoryDto> ?? new List<AssetHistoryDto>();
+}
+
+<div className="mb-4">
+    <a asp-action="Index" className="text-muted text-decoration-none small">&larr; Back to Asset Catalog</a>
+    <div className="d-flex align-items-center justify-content-between mt-2">
+        <h3 className="fw-bold mb-0">@Model.AssetName</h3>
+        <span className="badge bg-primary fs-6 px-3 py-1.5">@Model.Status</span>
+    </div>
+</div>
+
+<div className="row g-4">
+    <div className="col-12 col-md-5">
+        <div className="card-custom p-4">
+            <h5 className="fw-bold mb-3 border-bottom pb-2">Asset Specs</h5>
+            <dl className="row mb-0 small">
+                <dt className="col-sm-5 text-muted">Asset Tag:</dt>
+                <dd className="col-sm-7 fw-semibold">@Model.AssetTag</dd>
+
+                <dt className="col-sm-5 text-muted">Category:</dt>
+                <dd className="col-sm-7">@Model.CategoryName</dd>
+
+                <dt className="col-sm-5 text-muted">Serial Number:</dt>
+                <dd className="col-sm-7 font-monospace">@Model.SerialNumber</dd>
+
+                <dt className="col-sm-5 text-muted">Brand & Model:</dt>
+                <dd className="col-sm-7">@Model.Brand @Model.Model</dd>
+
+                <dt className="col-sm-5 text-muted">Purchase Cost:</dt>
+                <dd className="col-sm-7 fw-bold text-success">$@Model.PurchaseCost.ToString("F2")</dd>
+
+                <dt className="col-sm-5 text-muted">Assigned To:</dt>
+                <dd className="col-sm-7 fw-semibold text-primary">@(string.IsNullOrEmpty(Model.CurrentEmployeeName) ? "None" : Model.CurrentEmployeeName)</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div className="col-12 col-md-7">
+        <div className="card-custom p-4">
+            <h5 className="fw-bold mb-3 border-bottom pb-2">Audit History Trail</h5>
+            <div className="table-responsive">
+                <table className="table table-hover align-middle mb-0 small">
+                    <thead className="table-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Action</th>
+                            <th>Description</th>
+                            <th>By</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var h in history)
+                        {
+                            <tr>
+                                <td className="text-muted">@h.Date.ToString("g")</td>
+                                <td><span className="badge bg-light text-dark border">@h.Action</span></td>
+                                <td>@h.Description</td>
+                                <td className="fw-medium">@h.PerformedBy</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
